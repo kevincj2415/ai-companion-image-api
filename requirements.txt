@@ -1,0 +1,5 @@
+runpod
+diffusers[torch]
+transformers
+accelerate
+sentencepiece
