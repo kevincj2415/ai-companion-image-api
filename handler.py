@@ -1,37 +1,34 @@
+import os
 import runpod
 import torch
-import os
-from diffusers import FluxPipeline # O el pipeline de Seedream 4.5
+from diffusers import DiffusionPipeline
 import base64
 from io import BytesIO
 
+# 1. Leemos el token por si el modelo lo requiere
 hf_token = os.environ.get("HF_TOKEN")
-# Cargamos el modelo en memoria al iniciar el contenedor (Warm-up)
-# Usamos Flux 2 en versión FP8 para que sea rápido y quepa en GPUs de 24GB
-model_name = os.environ.get("MODEL_NAME", "black-forest-labs/FLUX.2-klein-9B")
-pipe = FluxPipeline.from_pretrained(
-    model_name, 
+
+# 2. Usamos EXACTAMENTE el modelo y la clase que encontraste en la documentación
+pipe = DiffusionPipeline.from_pretrained(
+    "black-forest-labs/FLUX.2-klein-9B", 
     torch_dtype=torch.bfloat16,
     token=hf_token
 ).to("cuda")
 
 def handler(job):
-    job_input = job.get("input", {})
+    job_input = job["input"]
     prompt = job_input.get("prompt")
     
-    if not prompt:
-        return {"error": "El campo 'prompt' es requerido en el input."}
-    
-    # Generación
+    # 3. Generamos la imagen basada solo en tu texto (Text-to-Image)
     image = pipe(
-        prompt, 
-        num_inference_steps=20, 
+        prompt=prompt,
+        num_inference_steps=25, 
         guidance_scale=3.5
     ).images[0]
 
-    # Convertir a Base64 para devolverlo por la API
+    # 4. Empaquetamos en Base64 para enviarlo a tu app
     buffer = BytesIO()
     image.save(buffer, format="PNG")
-    return {"image": base64.b64encode(buffer.getvalue()).decode("utf-8")}
+    return {"image_base64": base64.b64encode(buffer.getvalue()).decode("utf-8")}
 
 runpod.serverless.start({"handler": handler})
