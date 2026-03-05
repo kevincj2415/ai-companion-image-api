@@ -12,7 +12,7 @@ hf_token = os.environ.get("HF_TOKEN")
 
 # Inicializamos el modelo oficial (versión rápida y sin filtros)
 pipe = FluxPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-schnell", 
+    "black-forest-labs/FLUX.2-klein-9B", 
     torch_dtype=torch.bfloat16,
     token=hf_token
 ).to("cuda")
