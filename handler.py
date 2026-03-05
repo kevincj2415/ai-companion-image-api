@@ -4,6 +4,7 @@ import torch
 from diffusers import DiffusionPipeline
 import base64
 from io import BytesIO
+from diffusers import FluxPipeline
 
 # 1. Leemos el token por si el modelo lo requiere
 hf_token = os.environ.get("HF_TOKEN")
