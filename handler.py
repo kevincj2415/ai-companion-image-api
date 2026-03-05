@@ -9,8 +9,8 @@ from io import BytesIO
 hf_token = os.environ.get("HF_TOKEN")
 
 # 2. Usamos EXACTAMENTE el modelo y la clase que encontraste en la documentación
-pipe = DiffusionPipeline.from_pretrained(
-    "black-forest-labs/FLUX.2-klein-9B", 
+pipe = FluxPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-schnell", 
     torch_dtype=torch.bfloat16,
     token=hf_token
 ).to("cuda")
