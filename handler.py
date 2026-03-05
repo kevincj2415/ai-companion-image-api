@@ -8,7 +8,7 @@ from io import BytesIO
 hf_token = os.environ.get("HF_TOKEN")
 # Cargamos el modelo en memoria al iniciar el contenedor (Warm-up)
 # Usamos Flux 2 en versión FP8 para que sea rápido y quepa en GPUs de 24GB
-model_name = os.environ.get("MODEL_NAME", "black-forest-labs/FLUX.2-flex-fp8")
+model_name = os.environ.get("MODEL_NAME", "black-forest-labs/FLUX.2-klein-9B")
 pipe = FluxPipeline.from_pretrained(
     model_name, 
     torch_dtype=torch.bfloat16,
