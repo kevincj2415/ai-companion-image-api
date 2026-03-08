@@ -4,22 +4,24 @@ import torch
 import base64
 from io import BytesIO
 
-# Usamos DiffusionPipeline para que autodetecte la arquitectura nueva (Flux2KleinPipeline)
-from diffusers import DiffusionPipeline
+# Usamos Flux2KleinPipeline tal y como indica la documentación de HuggingFace
+from diffusers import Flux2KleinPipeline
 
 hf_token = os.environ.get("HF_TOKEN")
 
-# Cargamos el modelo en memoria al iniciar el contenedor (Warm-up)
-# Usamos Flux 2 en versión FP8 para que sea rápido y quepa en GPUs de 24GB
 model_name = os.environ.get("MODEL_NAME", "black-forest-labs/FLUX.2-klein-9B")
-
 print(f"Cargando {model_name}...")
 
-pipe = DiffusionPipeline.from_pretrained(
+device = "cuda"
+dtype = torch.bfloat16
+
+pipe = Flux2KleinPipeline.from_pretrained(
     model_name, 
-    torch_dtype=torch.bfloat16,
+    torch_dtype=dtype,
     token=hf_token
-).to("cuda")
+)
+# Ahorrar VRAM descargando partes del modelo a CPU según la documentación
+pipe.enable_model_cpu_offload()
 
 def handler(job):
     job_input = job.get("input", {})
@@ -27,11 +29,14 @@ def handler(job):
     if not prompt:
         prompt = "a futuristic city"
     
-    # Para la serie 2 de Flux, 20 pasos es un buen punto de partida
+    # Parámetros recomendados por la documentación de BFL (guidance_scale=1.0, 4 pasos)
     image = pipe(
-        prompt=prompt, 
-        num_inference_steps=20, 
-        guidance_scale=3.5
+        prompt=prompt,
+        height=1024,
+        width=1024,
+        guidance_scale=1.0, 
+        num_inference_steps=4,
+        generator=torch.Generator(device=device).manual_seed(0)
     ).images[0]
 
     buffer = BytesIO()
