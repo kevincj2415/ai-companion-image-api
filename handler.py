@@ -22,12 +22,14 @@ pipe = DiffusionPipeline.from_pretrained(
 ).to("cuda")
 
 def handler(job):
-    job_input = job["input"]
-    prompt = job_input.get("prompt", "a futuristic city")
+    job_input = job.get("input", {})
+    prompt = job_input.get("prompt")
+    if not prompt:
+        prompt = "a futuristic city"
     
     # Para la serie 2 de Flux, 20 pasos es un buen punto de partida
     image = pipe(
-        prompt, 
+        prompt=prompt, 
         num_inference_steps=20, 
         guidance_scale=3.5
     ).images[0]
