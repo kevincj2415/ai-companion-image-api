@@ -12,10 +12,11 @@ RUN pip install git+https://github.com/huggingface/diffusers.git transformers ac
 ARG HF_TOKEN
 # Descargamos el modelo durante el build para hornearlo en la imagen
 # Descargamos el modelo durante el build asegurándonos de usar python directamente
+# Filtramos los archivos fp32/fp16 redundantes y bajamos SOLO los bf16 y configuraciones (~18GB total)
 RUN python -c "\
 from huggingface_hub import snapshot_download; \
 import os; \
-snapshot_download(repo_id='black-forest-labs/FLUX.2-klein-9B', token=os.environ.get('HF_TOKEN'))"
+snapshot_download(repo_id='black-forest-labs/FLUX.2-klein-9B', token=os.environ.get('HF_TOKEN'), allow_patterns=['*.json', '*.txt', '*_bf16.safetensors', '*.model', '*.tiktoken'])"
 
 COPY handler.py .
 
