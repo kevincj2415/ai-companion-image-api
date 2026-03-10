@@ -8,6 +8,10 @@ from io import BytesIO
 from diffusers import Flux2KleinPipeline
 
 hf_token = os.environ.get("HF_TOKEN")
+if hf_token:
+    print(f"DEBUG: HF_TOKEN recibido, longitud: {len(hf_token)}, prefijo: {hf_token[:4]}...")
+else:
+    print("DEBUG: ADVERTENCIA CRÍTICA: HF_TOKEN es None o está vacío. ¡Esta es la razón del error 401!")
 
 model_name = os.environ.get("MODEL_NAME", "black-forest-labs/FLUX.2-klein-9B")
 print(f"Cargando {model_name}...")

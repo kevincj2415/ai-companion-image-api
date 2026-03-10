@@ -1,0 +1,63 @@
+2026-03-10T16:37:59.733892450Z ==========
+2026-03-10T16:37:59.733900584Z == CUDA ==
+2026-03-10T16:37:59.733905220Z ==========
+2026-03-10T16:37:59.734383775Z CUDA Version 12.6.3
+2026-03-10T16:37:59.735344077Z Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+2026-03-10T16:37:59.736204108Z This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+2026-03-10T16:37:59.736210544Z By pulling and using the container, you accept the terms and conditions of this license:
+2026-03-10T16:37:59.736215534Z https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+2026-03-10T16:37:59.736225574Z A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+2026-03-10T16:38:05.528635683Z Cargando black-forest-labs/flux.2-klein-9b...
+2026-03-10T16:38:05.601373583Z _client.py          :1025 2026-03-10 16:38:05,601 HTTP Request: GET https://huggingface.co/api/models/black-forest-labs/flux.2-klein-9b "HTTP/1.1 307 Temporary Redirect"
+2026-03-10T16:38:05.629730514Z _client.py          :1025 2026-03-10 16:38:05,629 HTTP Request: GET https://huggingface.co/api/models/black-forest-labs/FLUX.2-klein-9B "HTTP/1.1 200 OK"
+2026-03-10T16:38:05.656887897Z _client.py          :1025 2026-03-10 16:38:05,656 HTTP Request: HEAD https://huggingface.co/black-forest-labs/flux.2-klein-9b/resolve/main/model_index.json "HTTP/1.1 401 Unauthorized"
+2026-03-10T16:38:05.657100591Z Traceback (most recent call last):
+2026-03-10T16:38:05.657131341Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_http.py", line 761, in hf_raise_for_status
+2026-03-10T16:38:05.657383080Z     response.raise_for_status()
+2026-03-10T16:38:05.657404888Z   File "/usr/local/lib/python3.12/dist-packages/httpx/_models.py", line 829, in raise_for_status
+2026-03-10T16:38:05.657613772Z     raise HTTPStatusError(message, request=request, response=self)
+2026-03-10T16:38:05.657623178Z httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/black-forest-labs/flux.2-klein-9b/resolve/main/model_index.json'
+2026-03-10T16:38:05.657628858Z For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+2026-03-10T16:38:05.657638991Z The above exception was the direct cause of the following exception:
+2026-03-10T16:38:05.657648495Z Traceback (most recent call last):
+2026-03-10T16:38:05.657653511Z   File "/app/handler.py", line 18, in <module>
+2026-03-10T16:38:05.657658068Z     pipe = Flux2KleinPipeline.from_pretrained(
+2026-03-10T16:38:05.657662805Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.657667438Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T16:38:05.657674681Z     return fn(*args, **kwargs)
+2026-03-10T16:38:05.657832168Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.657869676Z   File "/usr/local/lib/python3.12/dist-packages/diffusers/pipelines/pipeline_utils.py", line 853, in from_pretrained
+2026-03-10T16:38:05.658076419Z     cached_folder = cls.download(
+2026-03-10T16:38:05.658096736Z                     ^^^^^^^^^^^^^
+2026-03-10T16:38:05.658102002Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T16:38:05.658107283Z     return fn(*args, **kwargs)
+2026-03-10T16:38:05.658112533Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.658117396Z   File "/usr/local/lib/python3.12/dist-packages/diffusers/pipelines/pipeline_utils.py", line 1636, in download
+2026-03-10T16:38:05.658399184Z     config_file = hf_hub_download(
+2026-03-10T16:38:05.658409704Z                   ^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.658414612Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T16:38:05.658824580Z     return fn(*args, **kwargs)
+2026-03-10T16:38:05.658870195Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.658876125Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 986, in hf_hub_download
+2026-03-10T16:38:05.658977533Z     return _hf_hub_download_to_cache_dir(
+2026-03-10T16:38:05.659004815Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.659010728Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 1137, in _hf_hub_download_to_cache_dir
+2026-03-10T16:38:05.659097051Z     _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+2026-03-10T16:38:05.659119745Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 1766, in _raise_on_head_call_error
+2026-03-10T16:38:05.659333035Z     raise head_call_error
+2026-03-10T16:38:05.659358048Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 1653, in _get_metadata_or_catch_error
+2026-03-10T16:38:05.659869426Z     metadata = get_hf_file_metadata(
+2026-03-10T16:38:05.659900135Z                ^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.659906099Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T16:38:05.659911539Z     return fn(*args, **kwargs)
+2026-03-10T16:38:05.659916527Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.659921475Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 1576, in get_hf_file_metadata
+2026-03-10T16:38:05.660150577Z     response = _httpx_follow_relative_redirects_with_backoff(
+2026-03-10T16:38:05.660182687Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T16:38:05.660191756Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_http.py", line 692, in _httpx_follow_relative_redirects_with_backoff
+2026-03-10T16:38:05.660205936Z     hf_raise_for_status(response)
+2026-03-10T16:38:05.660214293Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_http.py", line 796, in hf_raise_for_status
+2026-03-10T16:38:05.660461316Z     raise gated_err from e
+2026-03-10T16:38:05.660482238Z huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-69b048ed-32544bdd0312219c1e05435c;3d7c163c-040d-4d8b-8e2e-f9bde9750223)
+2026-03-10T16:38:05.660493251Z Cannot access gated repo for url https://huggingface.co/black-forest-labs/flux.2-klein-9b/resolve/main/model_index.json.
+2026-03-10T16:38:05.660498891Z Access to model black-forest-labs/FLUX.2-klein-9B is restricted. You must have access to it and be authenticated to access it. Please log in.
