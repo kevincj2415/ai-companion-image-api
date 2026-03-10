@@ -13,7 +13,7 @@ if hf_token:
 else:
     print("DEBUG: ADVERTENCIA CRÍTICA: HF_TOKEN es None o está vacío. ¡Esta es la razón del error 401!")
 
-model_name = os.environ.get("MODEL_NAME", "black-forest-labs/FLUX.2-klein-9B")
+model_name = os.environ.get("MODEL_NAME", "unsloth/FLUX.2-klein-9B-GGUF")
 print(f"Cargando {model_name}...")
 
 device = "cuda"
