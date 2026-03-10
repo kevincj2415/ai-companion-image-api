@@ -11,9 +11,11 @@ RUN pip install git+https://github.com/huggingface/diffusers.git transformers ac
 # Argumento de build para el Token de Hugging Face
 ARG HF_TOKEN
 # Descargamos el modelo durante el build para hornearlo en la imagen
-# Como huggingface-cli a veces no se agrega al root path de bin, usamos la invocación como módulo:
-RUN python -m huggingface_hub.commands.huggingface_cli login --token ${HF_TOKEN} && \
-    python -m huggingface_hub.commands.huggingface_cli download black-forest-labs/FLUX.2-klein-9B
+# Descargamos el modelo durante el build asegurándonos de usar python directamente
+RUN python -c "\
+from huggingface_hub import snapshot_download; \
+import os; \
+snapshot_download(repo_id='black-forest-labs/FLUX.2-klein-9B', token=os.environ.get('HF_TOKEN'))"
 
 COPY handler.py .
 
