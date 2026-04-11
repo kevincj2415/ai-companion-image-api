@@ -5,8 +5,8 @@ import base64
 from io import BytesIO
 from PIL import Image
 
-# Usamos AutoPipelineForImage2Image para compatibilidad con Image-to-Image y usamos el pipeline original para TXT2IMG
-from diffusers import Flux2KleinPipeline, AutoPipelineForImage2Image
+# Usamos la canalización directa, Flux2KleinPipeline es unificada y soporta tanto texto como Image2Image
+from diffusers import Flux2KleinPipeline
 
 # Ya no necesitamos HF_TOKEN en tiempo de ejecución porque
 # el Dockerfile descargó los pesos localmente en la caché de la imagen.
@@ -24,11 +24,6 @@ pipe = Flux2KleinPipeline.from_pretrained(
 # Ahorrar VRAM descargando partes del modelo a CPU según la documentación
 pipe.enable_model_cpu_offload()
 
-# Configurar pipeline de Image-to-Image. Con from_pipe, reutilizamos los componentes en memoria
-# para no duplicar el consumo de VRAM ni de RAM.
-img2img_pipe = AutoPipelineForImage2Image.from_pipe(pipe)
-img2img_pipe.enable_model_cpu_offload()
-
 def handler(job):
     job_input = job.get("input", {})
     prompt = job_input.get("prompt")
@@ -41,29 +36,40 @@ def handler(job):
     guidance_scale = job_input.get("guidance_scale", 1.0)
     seed = job_input.get("seed", 0)
     
-    # Extraer variables para image-to-image
-    input_image_b64 = job_input.get("image")
-    strength = job_input.get("strength", 0.5)
+    input_image_b64 = job_input.get("image_base64") or job_input.get("image")
+    input_image_url = job_input.get("image_url")
 
     generator = torch.Generator(device=device).manual_seed(seed)
     
-    if input_image_b64:
+    # Procesar imagen, ya sea por URL o Base64
+    image_bytes = None
+    if input_image_url:
         try:
-            # Detectar cabeceras en base64 en caso de venir de web client, o asumir puro base64
+            import urllib.request
+            req = urllib.request.Request(input_image_url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req) as response:
+                image_bytes = response.read()
+        except Exception as e:
+            return {"error": f"Hubo un error descargando la URL de la imagen: {str(e)}"}
+    elif input_image_b64:
+        try:
             if "," in input_image_b64:
                 input_image_b64 = input_image_b64.split(",")[1]
-            
             image_bytes = base64.b64decode(input_image_b64)
+        except Exception as e:
+            return {"error": f"Hubo un error decodificando el base64 de la imagen: {str(e)}"}
+            
+    if image_bytes:
+        try:
             init_image = Image.open(BytesIO(image_bytes)).convert("RGB")
             
-            # Prevenir imágenes gigantescas o forzar dimensiones (Opcional, de momento generamos normal)
+            # Prevenir imágenes gigantescas o forzar dimensiones
             init_image = init_image.resize((width, height))
             
-            # Ejecutar inferencia Image-to-Image
-            image = img2img_pipe(
+            # Ejecutar inferencia Image-to-Image / Editing (Pipeline unificado)
+            image = pipe(
                 prompt=prompt,
                 image=init_image,
-                strength=strength,
                 guidance_scale=guidance_scale,
                 num_inference_steps=num_inference_steps,
                 generator=generator
