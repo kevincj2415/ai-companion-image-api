@@ -1,0 +1,71 @@
+2026-03-10T18:16:05.855259934Z ==========
+2026-03-10T18:16:05.855276419Z == CUDA ==
+2026-03-10T18:16:05.855315999Z ==========
+2026-03-10T18:16:05.860748279Z CUDA Version 12.6.3
+2026-03-10T18:16:05.871889936Z Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+2026-03-10T18:16:05.871895037Z This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+2026-03-10T18:16:05.871900897Z By pulling and using the container, you accept the terms and conditions of this license:
+2026-03-10T18:16:05.871913616Z https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+2026-03-10T18:16:05.871920620Z A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+2026-03-10T18:16:12.299602873Z Cargando unsloth/flux.2-klein-9b-gguf...
+2026-03-10T18:16:12.462881073Z _client.py          :1025 2026-03-10 18:16:12,462 HTTP Request: GET https://huggingface.co/api/models/unsloth/flux.2-klein-9b-gguf "HTTP/1.1 307 Temporary Redirect"
+2026-03-10T18:16:12.597983591Z _client.py          :1025 2026-03-10 18:16:12,597 HTTP Request: GET https://huggingface.co/api/models/unsloth/FLUX.2-klein-9B-GGUF "HTTP/1.1 200 OK"
+2026-03-10T18:16:12.731215783Z _client.py          :1025 2026-03-10 18:16:12,730 HTTP Request: HEAD https://huggingface.co/unsloth/flux.2-klein-9b-gguf/resolve/main/model_index.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10T18:16:12.867221937Z _client.py          :1025 2026-03-10 18:16:12,867 HTTP Request: HEAD https://huggingface.co/unsloth/FLUX.2-klein-9B-GGUF/resolve/main/model_index.json "HTTP/1.1 404 Not Found"
+2026-03-10T18:16:12.868243180Z Traceback (most recent call last):
+2026-03-10T18:16:12.868253679Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_http.py", line 761, in hf_raise_for_status
+2026-03-10T18:16:12.868563928Z     response.raise_for_status()
+2026-03-10T18:16:12.868620824Z   File "/usr/local/lib/python3.12/dist-packages/httpx/_models.py", line 829, in raise_for_status
+2026-03-10T18:16:12.868796548Z     raise HTTPStatusError(message, request=request, response=self)
+2026-03-10T18:16:12.868835637Z httpx.HTTPStatusError: Client error '404 Not Found' for url 'https://huggingface.co/unsloth/FLUX.2-klein-9B-GGUF/resolve/main/model_index.json'
+2026-03-10T18:16:12.868838605Z For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-03-10T18:16:12.868842330Z The above exception was the direct cause of the following exception:
+2026-03-10T18:16:12.868846462Z Traceback (most recent call last):
+2026-03-10T18:16:12.868852009Z   File "/app/handler.py", line 18, in <module>
+2026-03-10T18:16:12.868901969Z     pipe = Flux2KleinPipeline.from_pretrained(
+2026-03-10T18:16:12.868967186Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.868979013Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T18:16:12.869099282Z     return fn(*args, **kwargs)
+2026-03-10T18:16:12.869154520Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.869165354Z   File "/usr/local/lib/python3.12/dist-packages/diffusers/pipelines/pipeline_utils.py", line 853, in from_pretrained
+2026-03-10T18:16:12.869490714Z     cached_folder = cls.download(
+2026-03-10T18:16:12.869535328Z                     ^^^^^^^^^^^^^
+2026-03-10T18:16:12.869543318Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T18:16:12.869619281Z     return fn(*args, **kwargs)
+2026-03-10T18:16:12.869668851Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.869676214Z   File "/usr/local/lib/python3.12/dist-packages/diffusers/pipelines/pipeline_utils.py", line 1636, in download
+2026-03-10T18:16:12.870105084Z     config_file = hf_hub_download(
+2026-03-10T18:16:12.870142130Z                   ^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.870144644Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T18:16:12.870217531Z     return fn(*args, **kwargs)
+2026-03-10T18:16:12.870276945Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.870288410Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 986, in hf_hub_download
+2026-03-10T18:16:12.870624164Z     return _hf_hub_download_to_cache_dir(
+2026-03-10T18:16:12.870687014Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.870701864Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 1061, in _hf_hub_download_to_cache_dir
+2026-03-10T18:16:12.870962574Z     (url_to_download, etag, commit_hash, expected_size, xet_file_data, head_call_error) = _get_metadata_or_catch_error(
+2026-03-10T18:16:12.871118586Z                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.871121535Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 1653, in _get_metadata_or_catch_error
+2026-03-10T18:16:12.871473642Z     metadata = get_hf_file_metadata(
+2026-03-10T18:16:12.871502199Z                ^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.871510135Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 89, in _inner_fn
+2026-03-10T18:16:12.871567799Z     return fn(*args, **kwargs)
+2026-03-10T18:16:12.871614767Z            ^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.871621021Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/file_download.py", line 1576, in get_hf_file_metadata
+2026-03-10T18:16:12.871952854Z     response = _httpx_follow_relative_redirects_with_backoff(
+2026-03-10T18:16:12.872021708Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-10T18:16:12.872028654Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_http.py", line 692, in _httpx_follow_relative_redirects_with_backoff
+2026-03-10T18:16:12.872179938Z     hf_raise_for_status(response)
+2026-03-10T18:16:12.872199691Z   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_http.py", line 787, in hf_raise_for_status
+2026-03-10T18:16:12.872346603Z     raise entry_err from e
+2026-03-10T18:16:12.872366154Z huggingface_hub.errors.RemoteEntryNotFoundError: 404 Client Error. (Request ID: Root=1-69b05fec-6f453fbb3455b6a532c1e825;e2dc0c53-95b8-4b29-af4d-767c14b3f8e3)
+2026-03-10T18:16:12.872369952Z Entry Not Found for url: https://huggingface.co/unsloth/FLUX.2-klein-9B-GGUF/resolve/main/model_index.json.
+2026-03-10T18:16:23.525231338Z ==========
+2026-03-10T18:16:23.525255198Z == CUDA ==
+2026-03-10T18:16:23.525318222Z ==========
+2026-03-10T18:16:23.530160004Z CUDA Version 12.6.3
+2026-03-10T18:16:23.530942484Z Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+2026-03-10T18:16:23.531678776Z This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+2026-03-10T18:16:23.531684273Z By pulling and using the container, you accept the terms and conditions of this license:
+2026-03-10T18:16:23.531689476Z https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+2026-03-10T18:16:23.531698873Z A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
